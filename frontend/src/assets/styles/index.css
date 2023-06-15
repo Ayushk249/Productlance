@@ -20,7 +20,7 @@ main {
     height: 2.5em; /* Set a fixed height */
     overflow: hidden; /* Hide overflow content */
     text-overflow: ellipsis; /* Add ellipsis for long text */
-    white-space: nowrap; /* Prevent wrapping */
+    white-space: nowrap; /* Prevent wrapping and setiing the card component of same size */
   }
   
   table td,

@@ -8,7 +8,7 @@ const products= [
     brand : 'Apple',
     category: 'Electronics',
     price: '10,000',
-    countInStock: '10',
+    countInStock: 10,
     rating :'4.5',
     numReviews:'12'
 },
@@ -21,7 +21,7 @@ const products= [
     brand : 'Apple',
     category: 'Electronics',
     price: '48,000',
-    countInStock: '7',
+    countInStock: 7,
     rating :'5.2',
     numReviews:'10'
 },
@@ -34,7 +34,7 @@ const products= [
     brand : 'Canon',
     category: 'Electronics',
     price: '72,000',
-    countInStock: '5',
+    countInStock: 5,
     rating :'3',
     numReviews:'12'
 },
@@ -47,7 +47,7 @@ const products= [
     brand : 'Sony',
     category: 'Electronics',
     price: '32,999',
-    countInStock: '7',
+    countInStock: 7,
     rating :'5',
     numReviews:'15'
 },
@@ -60,7 +60,7 @@ const products= [
     brand : 'Logitech',
     category: 'Electronics',
     price: '3,999',
-    countInStock: '5',
+    countInStock: 8,
     rating :'3.8',
     numReviews:'8'
 },
@@ -73,7 +73,7 @@ const products= [
     brand : 'Amazon',
     category: 'Electronics',
     price: '2,499',
-    countInStock: '0',
+    countInStock: 0,
     rating :'4',
     numReviews:'12'
 }

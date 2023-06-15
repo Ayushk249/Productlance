@@ -1,0 +1,16 @@
+{
+  "name": "productlance",
+  "version": "2.0.0",
+  "description": "MERN eCommerce app",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js"
+  },
+  "author": "Ayush",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
