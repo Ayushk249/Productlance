@@ -1,9 +1,11 @@
+// entry point of backend
 import express from 'express'
 import connectDB from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
 import { notFound,errorHandler } from './Middleware/errorHandler.js'
 import dotenv from 'dotenv'
 dotenv.config()
+
 // frontend running on 3000
 
 connectDB()
