@@ -20,7 +20,12 @@ const CartScreen = () => {
 
     const removeFromCartHandler = async(id)=>{
         dispatch(removeFromCart(id))
-}
+    }
+
+    const CheckoutHandler = () => {
+        // checking if user is logged in or not
+        Navigate('/login?redirect=/shipping')
+    }
 
   return (
     <Row>
@@ -70,7 +75,10 @@ const CartScreen = () => {
                         Rs. {cartItems.reduce((acc,curr) => acc +curr.price*curr.qty,0).toFixed(2)}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                        <Button type='button' className='btn-block' disabled= {cartItems.length===0}> Checkout</Button>
+                        <Button type='button' 
+                        className='btn-block' 
+                        disabled= {cartItems.length===0} 
+                        onClick={CheckoutHandler}> Checkout</Button>
                     </ListGroup.Item>
                 </ListGroup>
             </Card>
