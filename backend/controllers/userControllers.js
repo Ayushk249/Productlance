@@ -26,7 +26,7 @@ const Authuser = asyncHandler(async(request,response) => {
         throw new Error('Invalid email or password')
     }
 
-    response.send('auth user')
+    
 })
 
 
@@ -65,7 +65,7 @@ const Registeruser = asyncHandler(async(request,response) => {
     }
 
 
-    response.send('resgister user')
+   
 })
 
 
@@ -103,7 +103,7 @@ const GetuserProfile = asyncHandler(async(request,response) => {
         throw new Error('User not found')
     }
 
-    response.send(' user profile')
+    
 })
 
 
