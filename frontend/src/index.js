@@ -1,5 +1,5 @@
 // entry point of react
-
+import {PayPalScriptProvider} from "@paypal/react-paypal-js"
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom"
@@ -18,6 +18,7 @@ import ShippingScreens from './screens/ShippingScreens';
 import PaymentScreens from './screens/PaymentScreens';
 import PrivateRoute from './components/PrivateRoute';
 import OrderScreens from './screens/OrderScreens';
+import AfterOrderScreen from './screens/AfterOrderScreen';
 
 
 
@@ -34,6 +35,7 @@ const router= createBrowserRouter(
           <Route path ='/shipping' element= {<ShippingScreens/>}/>
           <Route path ='/payment' element= {<PaymentScreens/>}/>
           <Route path ='/placeorder' element= {<OrderScreens/>}/>
+          <Route path ='/orders/:id' element= {<AfterOrderScreen/>}/>
       </Route>
       
     </Route>
@@ -45,8 +47,13 @@ const router= createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    {/* redux provider */}
     <Provider store ={store}>
-        <RouterProvider router={router}/>
+        {/* paypal provider */}
+        <PayPalScriptProvider deferLoading={true}>
+            {/* router provider */}
+            <RouterProvider router={router}/>
+        </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );

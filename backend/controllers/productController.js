@@ -22,6 +22,7 @@ const getProductsById = asyncHandler(async (request,response) => {
         response.json(product)
     }else{
         response.status(404)
+        // can throw error because of errorhandler
         throw new Error ('Product not found')
     }
 })

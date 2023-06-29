@@ -1,15 +1,15 @@
-import {useEffect, useState } from "react";
+import {useEffect} from "react";
 import { useNavigate,Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { Form,Button,Col,Image,Card,ListGroup,Row} from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { useCreateOrderMutation } from "../slices/ordersApiSlice";
+import { useCreateOrderMutation} from "../slices/ordersApiSlice";
 import React from 'react'
 import { toast } from 'react-toastify';
 import { clearCartItems } from "../slices/cartSlice";
 import { LinkContainer } from 'react-router-bootstrap';
-import Message from "../components/Message";
 import Loader from "../components/Loader";
+
 
 const OrderScreens = () => {
 
@@ -31,7 +31,6 @@ const OrderScreens = () => {
     const orderHandler = async() => {
         try {
             //reducer is from API slice, so we call it like this
-            console.log(cart.cartItems)
             const response = await createOrder({
                 orderItems: cart.cartItems,
                 shippingAddress: cart.shippingAddress,
@@ -44,7 +43,7 @@ const OrderScreens = () => {
 
             // reducer is from reguler slice , so dispatch it 
             dispatch(clearCartItems())
-            navigate(`/order/${response._id}`)
+            navigate(`orders/${response._id}`)
         } catch (error) {
             toast.error(error?.data?.message || error.error)
         }

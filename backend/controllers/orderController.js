@@ -37,7 +37,7 @@ const addNewOrderItems = asyncHandler(async (request,response) => {
 
         const createdOrder = order.save();
 
-        response.status(201).json(createdOrder)
+        response.status(201).json(order)
     }
 
 })
@@ -74,14 +74,32 @@ const getOrderById = asyncHandler(async (request,response) => {
 // @ access private
 
 const updateOrderToPaid = asyncHandler(async (request,response) => {
-    response.send("update order to paid")
+    const order = await Order.findById(request.params.id)
+
+    if(order){
+        order.isPaid=true
+        order.paidAt = Date.now()
+        // below information coming from paypal
+        order.paymentResult = {
+            id: request.body.id,
+            status: request.body.status,
+            update_time: request.body.update_time,
+            email_address: request.body.payer.email_address
+        }
+        
+        const updatedOrder = await order.save()
+
+        response.status(200).json(order)
+    }else{
+        response.status(404)
+        throw new Error('Order not found')
+    }
 })
 
 
 // @desc update order to isDelivered
 // @route PUT /api/orders/:id/deliver
 // @ access private/admin
-
 const updateOrderToDelivered = asyncHandler(async (request,response) => {
     response.send("update order to Delivered")
 })
