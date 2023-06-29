@@ -48,12 +48,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* redux provider */}
+
     <Provider store ={store}>
         {/* paypal provider */}
         <PayPalScriptProvider deferLoading={true}>
             {/* router provider */}
             <RouterProvider router={router}/>
-        </PayPalScriptProvider>
+            </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );

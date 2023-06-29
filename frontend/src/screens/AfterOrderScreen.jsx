@@ -6,7 +6,7 @@ import { useGetOrderDetailsQuery, usePayOrderMutation,useGetPaypalClientIdQuery 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { Alert } from "react-bootstrap";
-import {PayPalButtons,usePayPalScriptReducer} from "@paypal/react-paypal-js"
+import {PayPalButtons,usePayPalScriptReducer ,PayPalScriptProvider} from "@paypal/react-paypal-js"
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
@@ -52,6 +52,51 @@ const AfterOrderScreen = () => {
             }
         }
     } , [paypal,order,paypalDispatch,paypalError,paypalLoading])
+
+
+    // PayPal handlers
+
+    function onApprove (data,actions) {
+        return actions.order.capture().then(async function(details){
+            try {
+                // from usePayOrderMutation slice
+                await payOrder({orderId,details})
+                // to update isPaid
+                refetch()
+                toast.success('Payment Successfull')
+            } catch (err) {
+                toast.error(err?.data?.message || err.message)
+            }
+        })
+    }
+    // async function onApproveTest () {
+    //     try {
+    //         await payOrder({orderId,details:{ payer:{} }})
+    //             refetch()
+    //             toast.success('Payment Successfull')
+
+    //     } catch (err) {
+    //         toast.error(err?.data?.message || err.message)
+    //     }
+    // }
+
+
+    function onError (err) {
+            toast.error(err.message)
+    }
+    function createOrder (data,actions) {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: (order.totalPrice * 0.01369).toFixed(2)
+                    }
+                }
+            ]
+        }).then((orderId) => {
+            return orderId
+        })
+    }
 
   return (
     isLoading ? <Loader/> : error ? <Message variant='danger' childern={error}/> : (
@@ -139,9 +184,34 @@ const AfterOrderScreen = () => {
                                     <Col> Rs.{order.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
+
+                            {/* Payment and delivered feature here */}
+                            
+                            {!order.isPaid && (
+                                
+                                <ListGroup.Item>
+                                    {paymentLoading && <Loader/>}
+                                    {isPending? <Loader/> : (
+                                        <div>
+                                            {/* <Button onClick={onApproveTest} style= {{marginBottom: '10px'}}>
+                                            Test pay order
+                                            </Button> */}
+                                            <div>
+                                                <PayPalScriptProvider >
+                                                    <PayPalButtons createOrder={createOrder}
+                                                     onApprove={onApprove}
+                                                    onError={onError} />
+                                                </PayPalScriptProvider>
+                                            </div>
+                                        </div>
+                                    )}
+
+
+                                </ListGroup.Item>
+                            )}
                         </ListGroup>
 
-                        {/* Payment and delivered feature here */}
+
                     </Card>
                 </Col>
             </Row>

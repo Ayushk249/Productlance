@@ -43,7 +43,7 @@ const OrderScreens = () => {
 
             // reducer is from reguler slice , so dispatch it 
             dispatch(clearCartItems())
-            navigate(`orders/${response._id}`)
+            navigate(`/orders/${response._id}`)
         } catch (error) {
             toast.error(error?.data?.message || error.error)
         }
