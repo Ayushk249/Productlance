@@ -2,7 +2,7 @@ import {Link, useParams} from 'react-router-dom'
 import React from 'react'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useGetOrderDetailsQuery, usePayOrderMutation,useGetPaypalClientIdQuery } from '../slices/ordersApiSlice';
+import { useGetOrderDetailsQuery, usePayOrderMutation,useGetPaypalClientIdQuery,useDeliverOrderMutation } from '../slices/ordersApiSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { Alert } from "react-bootstrap";
@@ -25,6 +25,8 @@ const AfterOrderScreen = () => {
     const {userInfo} = useSelector((state) => state.auth)
 
     const {data: paypal, isLoading: paypalLoading, error: paypalError} = useGetPaypalClientIdQuery()
+
+    const [deliverOrder, {isLoading:deliverLoading,error:deliverError}] = useDeliverOrderMutation();
 
     // loading PayPal script
 
@@ -98,6 +100,17 @@ const AfterOrderScreen = () => {
         })
     }
 
+    const deliverHandler = async () => {
+        try {
+            await deliverOrder(orderId)
+            refetch()
+            toast.success('Order Delivered')
+        } catch (err) {
+            toast.error(err?.data?.message || err.message)
+        }
+    }
+
+    
   return (
     isLoading ? <Loader/> : error ? <Message variant='danger' childern={error}/> : (
         <>  
@@ -207,6 +220,16 @@ const AfterOrderScreen = () => {
                                     )}
 
 
+                                </ListGroup.Item>
+                            )}
+
+                            {deliverLoading && <Loader/>}
+
+                            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <ListGroup.Item>
+                                    <Button type='button' className='btn btn-block' onClick={deliverHandler}>
+                                        Mark as delivered
+                                    </Button>
                                 </ListGroup.Item>
                             )}
                         </ListGroup>
