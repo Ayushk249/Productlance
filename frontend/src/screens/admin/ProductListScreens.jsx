@@ -2,15 +2,38 @@ import React from 'react'
 import { Table, Row,Button, Col, Alert } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FaTimes,FaEdit,FaTrash } from 'react-icons/fa'
-import { useGetProductsQuery } from '../../slices/productsApiSlice'
+import { useGetProductsQuery,useCreateProductMutation, useDeleteProductMutation } from '../../slices/productsApiSlice'
 import Loader from '../../components/Loader'
+import { toast } from 'react-toastify';
 
 
 const ProductListScreens = () => {
-    const {data: products, isLoading: loadingProducts, error: errorProducts} = useGetProductsQuery()
+    const {data: products, isLoading: loadingProducts, error: errorProducts, refetch} = useGetProductsQuery()
+    const[ createProduct, {isLoading: loadingCreateProduct, error: errorCreateProduct}] = useCreateProductMutation()
+    const[ deleteProduct, {isLoading: loadingDeleteProduct, error: errorDeleteProduct}] = useDeleteProductMutation()
 
-    const deleteHandler = (id) => {
+    const createProductHandler = async() => {
 
+         if(window.confirm('Are you sure')){
+            try {
+                    createProduct()
+                    refetch()
+            } catch (err) {
+                toast.error(err.message || err?.data?.message)
+            }
+         }
+        
+    }
+    const deleteHandler = async (id) => {
+        if(window.confirm('Are you sure')){
+            try {
+                await deleteProduct(id)
+                toast.success('Product deleted successfully')
+                refetch()
+            } catch (err) {
+                toast.error(err.message || err?.data?.message)
+            }
+        }
     } 
 
   return (
@@ -20,12 +43,15 @@ const ProductListScreens = () => {
             <h1>Products</h1>
         </Col>
         <Col className='text-right'>
-            <Button className='btn-sm m-3 my-2'>
+            <Button className='btn-sm m-3' onClick={createProductHandler}>
                 <FaEdit/> Create Product
             </Button>
         </Col>
     </Row>
 
+
+    {loadingCreateProduct && <Loader/>}
+    {loadingDeleteProduct && <Loader/>}
     {loadingProducts ? <Loader/> : errorProducts ? <Alert>{errorProducts}</Alert> : (
         <>
         <Table striped bordered hover responsive className='table-sm'>
