@@ -76,6 +76,7 @@ const ProfileScreen = () => {
         </Col>
         <Col md={9}>
             <h3>My Orders</h3>
+            
             {loadingMyOrders ? <Loader/> : errorMyOrders ? <Alert variant='danger'>{errorMyOrders?.data?.message}</Alert> : (
                 <Table striped hover responsive className='table-sm'>
                     <thead>
@@ -94,13 +95,13 @@ const ProfileScreen = () => {
                                 <td>{order._id}</td>
                                 <td>{order.totalPrice}</td>
                                 <td>{order.isPaid?(
-                                    order.paidAt.substring(0,10)
+                                    order.paidAt?.substring(0,10)
                                 ) :(
                                     <FaTimes style={{color: 'red'}}/>
                                 )}</td>
 
                                 <td>{order.isDelivered?(
-                                    order.Delivered.substring(0,10)
+                                    order.Delivered?.substring(0,10)
                                 ) :(
                                     <FaTimes style={{color: 'red'}}/>
                                 )}</td>

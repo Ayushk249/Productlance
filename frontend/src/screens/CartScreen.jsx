@@ -2,7 +2,7 @@ import React from 'react'
 import {Link,useNavigate} from 'react-router-dom';
 import { Row,Col,ListGroup,Image, Form, Button,Card } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import Message from '../components/Message';
+import { Alert } from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
 import { addToCart,removeFromCart } from '../slices/cartSlice';
 
@@ -30,9 +30,9 @@ const CartScreen = () => {
   return (
     <Row>
         <Col md={9}>
-            {cartItems.length === 0 ? (<Message>
+            {cartItems.length === 0 ? (<Alert variant='info'>
                 Your Cart is Empty, <Link to='/'>Go Back</Link>
-            </Message>) : (
+            </Alert>) : (
                 <ListGroup variant='flush'>
                 {cartItems.map((Item) => (
                     <ListGroup.Item key={Item._id}>

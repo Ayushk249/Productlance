@@ -144,7 +144,8 @@ const UpdateuserProfile = asyncHandler(async(request,response) => {
 // @access private/Admin
 
 const getUsers = asyncHandler(async(request,response) => {
-    response.send('All users by admin')
+    const users = await User.find({})
+    response.status(200).json(users)
 })
 
 
@@ -153,7 +154,21 @@ const getUsers = asyncHandler(async(request,response) => {
 // @access private/Admin
 
 const DeleteUser = asyncHandler(async(request,response) => {
-    response.send('delete user by admin')
+    const user = await User.findById(request.params.id)
+
+    if(user){
+        if(user.isAdmin){
+            // client error
+            response.status(400)
+            throw new Error('Cannot delete admin user')
+        }
+
+        await user.deleteOne({_id:user._id})
+        response.status(200).json({message : "user deleted"})
+    }else{
+        response.status(404)
+        throw new Error('User not found')
+    }
 })
 
 
@@ -162,7 +177,14 @@ const DeleteUser = asyncHandler(async(request,response) => {
 // @access private/Admin
 
 const ShowUser = asyncHandler(async(request,response) => {
-    response.send('get a specific user by admin')
+    const user = await User.findById(request.params.id).select('-password')
+
+    if(user){
+        response.status(200).json(user)
+    }else{
+        response.status(404)
+        throw new Error('User not found')
+    }
 })
 
 
@@ -171,7 +193,22 @@ const ShowUser = asyncHandler(async(request,response) => {
 // @access private/Admin
 
 const Updateuser = asyncHandler(async(request,response) => {
-    response.send('update user by admin')
+    const user = await User.findById(request.params.id)
+
+    if(user){
+        user.name = request.body.name || user.name
+        user.email = request.body.email || user.email
+        user.isAdmin = Boolean(request.body.isAdmin)
+
+        const updatedUser = await user.save()
+
+        response.status(201).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email:updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        })
+    }
 })
 
 
