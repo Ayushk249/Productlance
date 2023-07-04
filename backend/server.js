@@ -28,9 +28,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
 
-app.get('/' , (request,response) => {
-    response.send("API is running....")
-})
+
 
 app.use('/api/products',productRoutes)
 app.use('/api/users',userRoutes)
@@ -43,6 +41,20 @@ app.get('/api/config/paypal',(request,response) => response.send({clientId: proc
 // For making uploads folder static
 const __dirname = path.resolve()  // setting dirname to current directory
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
+
+
+// For deployment
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname,'/frontend/build')))
+
+    // if route is not found,then load index.html
+    app.get('*', (request,response) => response.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
+}else{
+    app.get('/' , (request,response) => {
+        response.send("API is running....")
+    })
+}
+
 app.use(errorHandler)
 app.use(notFound)
 
