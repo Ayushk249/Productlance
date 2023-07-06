@@ -5,7 +5,7 @@ import Ratings from './Ratings'
 
 const Product = ({product}) => {
   return (
-    <Card className='my-3 p-3 rounded'>
+    <Card variant='top' className='my-3 p-3 rounded'>
         {/* replace <a> tag with <Link> */}
         <Link to={`/product/${product._id}`}>
             <Card.Img src={product.image} variant='top'/>

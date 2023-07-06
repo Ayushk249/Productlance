@@ -6,7 +6,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../slices/usersApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../slices/authSlice'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 
 
 
@@ -33,10 +33,10 @@ const Header = () => {
 
   return (
     <header>
-        <Navbar bg='dark' variant='dark' expand='md' collapseOnSelect>
+        <Navbar bg='white' variant='light' expand='md' collapseOnSelect>
             <Container>
                 <LinkContainer to='/'>
-                <Navbar.Brand > <img src={logo} alt="ProductLance" />ProductLance</Navbar.Brand>
+                <Navbar.Brand > <img src={logo} alt="ProductLance" /> <strong>ProductLance</strong></Navbar.Brand>
                 </LinkContainer>
                 
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
@@ -45,7 +45,7 @@ const Header = () => {
 
                             <LinkContainer to='/cart'>
                                 <Nav.Link >
-                                    <FaShoppingCart/>Cart
+                                    <FaShoppingCart/> Cart
                                     {
                                         cartItems.length > 0 && (
                                             <Badge pill bg='danger' style= {{marginLeft: '5px'}}>

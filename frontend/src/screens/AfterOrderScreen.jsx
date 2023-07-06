@@ -127,7 +127,7 @@ const AfterOrderScreen = () => {
                             <strong>Email: </strong> {order.user.email}
                         </p>
                         <p>
-                            <strong>Address</strong>
+                            <strong>Address: </strong>
                             {order.shippingAddress.address}, {order.shippingAddress.city}{' '},
                             {order.shippingAddress.postalCode},{' '}, {order.shippingAddress.country}
                         </p>
@@ -141,12 +141,13 @@ const AfterOrderScreen = () => {
                     <ListGroup.Item>
                         <h2>Payment Method</h2>
                         <p>
-                            <strong>Method </strong> {order.paymentMethod}
+                            <strong>Method: </strong> {order.paymentMethod}
                         </p>
                         {order.isPaid ? (
                             <Alert variant='success'>Paid on {order.paidAt}</Alert>
+
                         ) : (
-                            <Alert variant='danger'>Not Paid</Alert>
+                            <Alert variant='danger'> Not Paid</Alert>
                         )}
                         
                     </ListGroup.Item>

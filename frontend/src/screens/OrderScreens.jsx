@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { clearCartItems } from "../slices/cartSlice";
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from "../components/Loader";
-
+import { Alert } from "react-bootstrap";
 
 const OrderScreens = () => {
 
@@ -67,7 +67,7 @@ const OrderScreens = () => {
 
                 <ListGroup variant='flush'>
                     <h2>Order Items</h2>
-                    {cart.cartItems.length === 0? <h5>Your cart is empty</h5> : (
+                    {cart.cartItems.length === 0? <Alert variant='info'>Your cart is empty</Alert> : (
                         <ListGroup variant='flush'>
                             {cart.cartItems.map((item,index) => (
                                 <ListGroup.Item key={index}>
